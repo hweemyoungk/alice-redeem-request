@@ -22,12 +22,12 @@ public class RedeemRequest {
     private String id;
     @TimeToLive
     private Long ttlSeconds;
-    @NotNull
     @Indexed
+    @NotNull
     @Positive
     private Long cardId;
-    @NotNull
     @Indexed
+    @NotNull
     @Positive
     private Long redeemRuleId;
     @NotNull
@@ -44,6 +44,7 @@ public class RedeemRequest {
     private String blueprintDisplayName;
     @Positive
     private Long expMilliseconds;
+    @Indexed
     @NotNull
     private Boolean isRedeemed = false;
 }

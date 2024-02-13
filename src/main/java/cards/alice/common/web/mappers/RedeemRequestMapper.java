@@ -1,7 +1,7 @@
 package cards.alice.common.web.mappers;
 
 import cards.alice.redeemrequest.domain.RedeemRequest;
-import cards.alice.redeemrequest.models.RedeemRequestDto;
+import cards.alice.common.models.RedeemRequestDto;
 
 public interface RedeemRequestMapper {
     RedeemRequest toEntity(RedeemRequestDto redeemRequestDto);

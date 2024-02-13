@@ -1,7 +1,7 @@
 package cards.alice.common.web.mappers;
 
+import cards.alice.common.models.RedeemRequestDto;
 import cards.alice.redeemrequest.domain.RedeemRequest;
-import cards.alice.redeemrequest.models.RedeemRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -37,9 +37,11 @@ public class RedeemRequestMapperImpl implements RedeemRequestMapper {
             return null;
         }
 
-        RedeemRequestDto.RedeemRequestDtoBuilder redeemRequestDto = RedeemRequestDto.builder();
+        RedeemRequestDto.RedeemRequestDtoBuilder<?, ?> redeemRequestDto = RedeemRequestDto.builder();
 
         redeemRequestDto.id(redeemRequest.getId());
+        redeemRequestDto.isDeleted(Boolean.FALSE);
+        redeemRequestDto.displayName("Dummy Display Name");
         redeemRequestDto.ttlSeconds(redeemRequest.getTtlSeconds());
         redeemRequestDto.cardId(redeemRequest.getCardId());
         redeemRequestDto.redeemRuleId(redeemRequest.getRedeemRuleId());

@@ -4,12 +4,16 @@ import cards.alice.redeemrequest.domain.RedeemRequest;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 public interface RedeemRequestRepository extends CrudRepository<RedeemRequest, String> {
-    Optional<RedeemRequest> findByRedeemRuleIdAndCardId(@NonNull Long redeemRuleId, @NonNull Long cardId);
+    Set<RedeemRequest> findByIsRedeemedAndCardIdAndRedeemRuleId(@NonNull Boolean isRedeemed, @NonNull Long cardId, @NonNull Long redeemRuleId);
+    Set<RedeemRequest> findByCardIdAndRedeemRuleId(@NonNull Long cardId, @NonNull Long redeemRuleId);
+
+    Set<RedeemRequest> findByCardId(@NonNull Long cardId);
+
+    Set<RedeemRequest> findByRedeemRuleId(@NonNull Long redeemRuleId);
 
     Set<RedeemRequest> findByOwnerIdAndIdIn(@NonNull UUID ownerId, @NonNull Set<String> ids);
 

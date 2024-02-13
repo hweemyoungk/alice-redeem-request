@@ -1,13 +1,13 @@
 package cards.alice.redeemrequest.services;
 
 
-import cards.alice.redeemrequest.models.RedeemRequestDto;
+import cards.alice.common.models.RedeemRequestDto;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public interface RedeemRequestService {
+public interface OwnerRedeemRequestService {
     RedeemRequestDto saveNewRedeemRequest(RedeemRequestDto redeemRequestDto);
 
     Optional<RedeemRequestDto> getRedeemRequestById(String id);

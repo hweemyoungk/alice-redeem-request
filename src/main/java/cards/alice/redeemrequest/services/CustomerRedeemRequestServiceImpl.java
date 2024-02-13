@@ -1,33 +1,55 @@
 package cards.alice.redeemrequest.services;
 
+import cards.alice.common.models.RedeemRequestDto;
 import cards.alice.common.web.mappers.RedeemRequestMapper;
 import cards.alice.redeemrequest.domain.RedeemRequest;
-import cards.alice.redeemrequest.models.RedeemRequestDto;
 import cards.alice.redeemrequest.repositories.RedeemRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RedeemRequestServiceImpl implements RedeemRequestService {
+public class CustomerRedeemRequestServiceImpl implements CustomerRedeemRequestService {
     private final RedeemRequestRepository redeemRequestRepository;
     private final RedeemRequestMapper redeemRequestMapper;
 
     @Override
-    public RedeemRequestDto saveNewRedeemRequest(RedeemRequestDto redeemRequestDto) {
-        return redeemRequestMapper.toDto(redeemRequestRepository.save(redeemRequestMapper.toEntity(redeemRequestDto)));
+    public Set<RedeemRequestDto> listRedeemRequests(
+            @NonNull Boolean isRedeemed, @NonNull Long cardId, @NonNull Long redeemRuleId) {
+        /*final Set<RedeemRequest> redeemRequests;
+        if (cardId != null && redeemRuleId != null) {
+            redeemRequests = redeemRequestRepository.findByCardIdAndRedeemRuleId(cardId, redeemRuleId);
+        } else if (cardId != null) {
+            redeemRequests = redeemRequestRepository.findByCardId(cardId);
+        } else if (redeemRuleId != null) {
+            redeemRequests = redeemRequestRepository.findByRedeemRuleId(redeemRuleId);
+        } else {
+            redeemRequests = new HashSet<>();
+        }*/
+        final Set<RedeemRequest> redeemRequests = redeemRequestRepository.findByIsRedeemedAndCardIdAndRedeemRuleId(isRedeemed, cardId, redeemRuleId);
+        return redeemRequests.stream().map(redeemRequestMapper::toDto).collect(Collectors.toSet());
     }
 
     @Override
-    public Optional<RedeemRequestDto> getRedeemRequestById(String id) {
-        return Optional.ofNullable(redeemRequestMapper.toDto(redeemRequestRepository.findById(id).orElse(null)));
+    public Boolean exists(String id) {
+        return redeemRequestRepository.existsById(id);
+    }
+
+    @Override
+    public void deleteRedeemRequestById(String id) {
+        redeemRequestRepository.deleteById(id);
+    }
+
+    @Override
+    public RedeemRequestDto saveNewRedeemRequest(RedeemRequestDto redeemRequestDto) {
+        return redeemRequestMapper.toDto(redeemRequestRepository
+                .save(redeemRequestMapper.toEntity(redeemRequestDto)));
     }
 
     @Override
@@ -51,31 +73,5 @@ public class RedeemRequestServiceImpl implements RedeemRequestService {
                 }
         );
         return atomicReference.get();
-    }
-
-    @Override
-    public Set<RedeemRequestDto> listRedeemRequests(UUID ownerId, Set<String> ids) {
-        final Set<RedeemRequest> redeemRequests;
-        if (ownerId != null && ids != null) {
-            redeemRequests = redeemRequestRepository.findByOwnerIdAndIdIn(ownerId, ids);
-        } else if (ownerId != null) {
-            redeemRequests = redeemRequestRepository.findByOwnerId(ownerId);
-        } else if (ids != null) {
-            redeemRequests = redeemRequestRepository.findByIdIn(ids);
-        } else {
-            redeemRequests = new HashSet<>();
-        }
-
-        return redeemRequests.stream().map(redeemRequestMapper::toDto).collect(Collectors.toSet());
-    }
-
-    @Override
-    public void deleteRedeemRequestById(String id) {
-        redeemRequestRepository.deleteById(id);
-    }
-
-    @Override
-    public Boolean exists(String id) {
-        return redeemRequestRepository.existsById(id);
     }
 }

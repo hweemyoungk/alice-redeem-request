@@ -1,19 +1,27 @@
-package cards.alice.redeemrequest.models;
+package cards.alice.common.models;
 
+import cards.alice.common.models.StringDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RedeemRequestDto {
+public class RedeemRequestDto extends StringDto implements Serializable {
+    //private static final Long serialVersionUID = 1L;
+
     private String id;
     private Long ttlSeconds;
     @NotNull
