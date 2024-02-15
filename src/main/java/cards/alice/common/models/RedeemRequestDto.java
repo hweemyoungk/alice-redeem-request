@@ -1,6 +1,5 @@
 package cards.alice.common.models;
 
-import cards.alice.common.models.StringDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -9,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -22,20 +22,20 @@ import java.util.UUID;
 public class RedeemRequestDto extends StringDto implements Serializable {
     //private static final Long serialVersionUID = 1L;
 
-    private String id;
-    private Long ttlSeconds;
     @NotNull
     @Positive
     private Long cardId;
     @NotNull
     @Positive
     private Long redeemRuleId;
-    @NotNull
     @NotBlank
+    @Length(max = 30)
     private String customerDisplayName;
     @NotNull
     private UUID customerId;
 
+    @Positive
+    private Long ttlSeconds;
     private UUID ownerId;
     private String blueprintDisplayName;
     @Positive
