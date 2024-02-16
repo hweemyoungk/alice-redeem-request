@@ -46,5 +46,5 @@ public class RedeemRequest {
     private Long expMilliseconds;
     @Indexed
     @NotNull
-    private Boolean isRedeemed = false;
+    private Boolean isRedeemed;
 }
